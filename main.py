@@ -12,6 +12,7 @@ import nltk
 from nltk.corpus import stopwords
 
 from text_understanding import TextUnderstander
+from text_reading import TextReader
 
 # import wikipedia
 # import webbrowser
@@ -33,14 +34,21 @@ if __name__ == '__main__':
     recognizer = sr.Recognizer()
 
     print('Do you want to recognize your speech?')
-    print('Print 0 if you would like to text with me. Print 1 if speech recognition is needed.')
+    print('Print 0 if you would like to text with me.')
+    print('Print 1 to hear the quote of Gilfoyle.')
+    print('Print 2 if speech recognition is needed.')
 
     numerical_input = int(input())
     if numerical_input == 0:
         print('What is your name?')
         name = str(input())
-        fowl = TextUnderstander(name)
-        fowl.meeter_greeter()
+        txt_und = TextUnderstander(name)
+        txt_und.meeter_greeter()
+
+    elif numerical_input == 1:
+        file_path = "gilfoyle.tsv"
+        txt_rdr = TextReader(str(file_path))
+        txt_rdr.print_file()
 
     else:
         while(True):
