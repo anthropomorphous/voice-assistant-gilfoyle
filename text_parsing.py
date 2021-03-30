@@ -1,6 +1,12 @@
 import random
 import pandas as pd
 
+
+def get_random_quote(extern_df):
+    rand_n = random.randrange(0, len(extern_df['answer']))
+    print(extern_df['answer'][rand_n])
+
+
 class TextParser():
     def __init__(self, file_text):
         self.hidden_text = file_text
@@ -24,5 +30,4 @@ class TextParser():
             'answer': answer_list
         })
 
-        rand_n = random.randrange(0, len(qna_df['answer']))
-        print(qna_df['answer'][rand_n])
+        return qna_df
