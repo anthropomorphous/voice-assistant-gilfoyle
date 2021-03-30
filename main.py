@@ -13,13 +13,7 @@ from nltk.corpus import stopwords
 
 from text_understanding import TextUnderstander
 from text_reading import TextReader
-
-# import wikipedia
-# import webbrowser
-# import subprocess
-# from ecapture import ecapture as ec
-# import wolframalpha
-# import requests
+from text_parsing import TextParser
 
 
 def recognize_store_speech(r):
@@ -35,7 +29,7 @@ if __name__ == '__main__':
 
     print('Do you want to recognize your speech?')
     print('Print 0 if you would like to text with me.')
-    print('Print 1 to hear the quote of Gilfoyle.')
+    print('Print 1 to hear the random quote of Gilfoyle.')
     print('Print 2 if speech recognition is needed.')
 
     numerical_input = int(input())
@@ -48,18 +42,15 @@ if __name__ == '__main__':
     elif numerical_input == 1:
         file_path = "gilfoyle.tsv"
         txt_rdr = TextReader(str(file_path))
-        txt_rdr.print_file()
+        raw_text = txt_rdr.read_text()
+        txt_prsr = TextParser(str(raw_text))
+        parsed_text = txt_prsr.parse_tsv_data()
 
     else:
         while(True):
             voice_input = recognize_store_speech(recognizer)
 
-            # recognize speech using Google Speech Recognition
             try:
-                # for testing purposes, we're just using the default API key
-                # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-                # instead of `r.recognize_google(audio)`
-
                 print("Gilfoyle thinks you said: \"{0}\" ".format(recognizer.recognize_google(voice_input)))
             except sr.UnknownValueError:
                 print("Gilfoyle could not understand audio")
