@@ -47,11 +47,11 @@ if __name__ == '__main__':
         txt_prsr = TextParser(str(raw_text))
         parsed_df = txt_prsr.parse_tsv_data()
         get_random_quote(parsed_df)
-        """
+
         txt_cleaner = TextTokenizerCleaner(parsed_df)
         df = txt_cleaner.preprocess_df()
         print(df.head())
-        """
+
 
     else:
         while(True):
