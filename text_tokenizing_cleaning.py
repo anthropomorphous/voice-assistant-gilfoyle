@@ -3,11 +3,16 @@ import re
 import pandas as pd
 import nltk
 #nltk.download('wordnet')
+from sklearn.feature_extraction.text import CountVectorizer
 
 pd.set_option('display.max_colwidth', 100)
 ps = nltk.PorterStemmer()
 wn = nltk.WordNetLemmatizer()
 
+"""
+ In the next episode:
+Feature Engineering - Sentiment analysis, topic modeling, named-entity recognition
+"""
 
 # Removes punctuation, tokenizes text, removes stopwords (i, my, and)
 def clean_text(text):
@@ -48,8 +53,8 @@ class TextTokenizerCleaner():
         self.data['question_stemmed'] = self.data['question_clean'].apply(lambda x: stemming(x))
         self.data['answer_stemmed'] = self.data['answer_clean'].apply(lambda x: stemming(x))
 
-        self.data['question_lemmatized'] = self.data['question_clean'].apply(lambda x: lemmatizing(x))
-        self.data['answer_lemmatized'] = self.data['answer_clean'].apply(lambda x: lemmatizing(x))
+       # self.data['question_lemmatized'] = self.data['question_clean'].apply(lambda x: lemmatizing(x))
+       # self.data['answer_lemmatized'] = self.data['answer_clean'].apply(lambda x: lemmatizing(x))
 
         prepared_df = self.data
         return prepared_df
