@@ -15,7 +15,7 @@ from text_understanding import TextUnderstander
 from text_reading import TextReader
 from text_parsing import TextParser, get_random_quote
 from text_tokenizing_cleaning import TextTokenizerCleaner
-from training import Trainer
+from training import Trainer, pickling
 
 
 file_path = "gilfoyle.tsv"
@@ -58,8 +58,9 @@ if __name__ == '__main__':
         print(df.head())
         """
         trainer = Trainer(str(json_file_path))
-        documents = trainer.get_docs()
-        print(documents)
+        documents, words, classes = trainer.get_docs()
+        pickling(words, classes)
+        trainer.training(documents, words, classes)
 
     else:
         while(True):

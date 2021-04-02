@@ -8,6 +8,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 pd.set_option('display.max_colwidth', 100)
 ps = nltk.PorterStemmer()
 wn = nltk.WordNetLemmatizer()
+ignore_punct = ['?', '!', '.', ',']
 
 
 # Removes punctuation, tokenizes text, removes stopwords (i, my, and)
@@ -28,6 +29,15 @@ def stemming(tokenized_text):
 def lemmatizing(tokenized_text):
     text = [wn.lemmatize(word) for word in tokenized_text]
     return text
+
+
+#def preprocess_lists(words):
+    #for word in words:
+    #    word = [x.lower() for x in word]
+    #words_cleaned = [clean_text(words) for x in words]
+    #words_lemmatized = [wn.lemmatize(x) for x in words if x not in ignore_punct]
+
+    #return words_lemmatized
 
 
 class TextTokenizerCleaner():
