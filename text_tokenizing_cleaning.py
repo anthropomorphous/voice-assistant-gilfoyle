@@ -9,10 +9,6 @@ pd.set_option('display.max_colwidth', 100)
 ps = nltk.PorterStemmer()
 wn = nltk.WordNetLemmatizer()
 
-"""
- In the next episode:
-Feature Engineering - Sentiment analysis, topic modeling, named-entity recognition
-"""
 
 # Removes punctuation, tokenizes text, removes stopwords (i, my, and)
 def clean_text(text):
@@ -35,26 +31,18 @@ def lemmatizing(tokenized_text):
 
 
 class TextTokenizerCleaner():
-    def __init__(self, input_df):
-        self.hidden_df = input_df
-
-    def get_data(self):
-        return self.hidden_df
-
-    def set_data(self, input_df):
-        self.hidden_df = input_df
-
-    data = property(get_data, set_data)
+    def __init__(self, dataframe):
+        self.dataframe = dataframe
 
     def preprocess_df(self):
-        self.data['question_clean'] = self.data['question'].apply(lambda x: clean_text(x.lower()))
-        self.data['answer_clean'] = self.data['answer'].apply(lambda x: clean_text(x.lower()))
+        self.dataframe['question_clean'] = self.dataframe['question'].apply(lambda x: clean_text(x.lower()))
+        self.dataframe['answer_clean'] = self.dataframe['answer'].apply(lambda x: clean_text(x.lower()))
 
-        self.data['question_stemmed'] = self.data['question_clean'].apply(lambda x: stemming(x))
-        self.data['answer_stemmed'] = self.data['answer_clean'].apply(lambda x: stemming(x))
+        self.dataframe['question_stemmed'] = self.dataframe['question_clean'].apply(lambda x: stemming(x))
+        self.dataframe['answer_stemmed'] = self.dataframe['answer_clean'].apply(lambda x: stemming(x))
 
        # self.data['question_lemmatized'] = self.data['question_clean'].apply(lambda x: lemmatizing(x))
        # self.data['answer_lemmatized'] = self.data['answer_clean'].apply(lambda x: lemmatizing(x))
 
-        prepared_df = self.data
+        prepared_df = self.dataframe
         return prepared_df

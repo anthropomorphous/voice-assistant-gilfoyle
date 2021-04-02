@@ -15,6 +15,11 @@ from text_understanding import TextUnderstander
 from text_reading import TextReader
 from text_parsing import TextParser, get_random_quote
 from text_tokenizing_cleaning import TextTokenizerCleaner
+from training import Trainer
+
+
+file_path = "gilfoyle.tsv"
+json_file_path = 'intents.json'
 
 
 def recognize_store_speech(r):
@@ -41,17 +46,20 @@ if __name__ == '__main__':
         txt_und.meeter_greeter()
 
     elif numerical_input == 1:
-        file_path = "gilfoyle.tsv"
+
         txt_rdr = TextReader(str(file_path))
         raw_text = txt_rdr.read_text()
         txt_prsr = TextParser(str(raw_text))
         parsed_df = txt_prsr.parse_tsv_data()
         get_random_quote(parsed_df)
-
+        """
         txt_cleaner = TextTokenizerCleaner(parsed_df)
         df = txt_cleaner.preprocess_df()
         print(df.head())
-
+        """
+        trainer = Trainer(str(json_file_path))
+        documents = trainer.get_docs()
+        print(documents)
 
     else:
         while(True):
