@@ -20,7 +20,7 @@ def pickling(words, classes):
     words = sorted(set(words))
     classes = sorted(set(classes))
     pickle.dump(words, open('words.pkl', 'wb'))
-    pickle.dump(words, open('classes.pkl', 'wb'))
+    pickle.dump(classes, open('classes.pkl', 'wb'))
 
 
 class Trainer():
@@ -28,7 +28,6 @@ class Trainer():
         self.file_name = file_name
 
     def get_docs(self):
-
         words = []
         classes = []
         documents = []
@@ -43,7 +42,7 @@ class Trainer():
                 if intent['tag'] not in classes:
                     classes.append(intent['tag'])
 
-        words = [wn.lemmatize((word)) for word in words if word not in ignore_letters]
+        words = [wn.lemmatize(word) for word in words if word not in ignore_letters]
         words = sorted(set(words))
 
         classes = sorted(set(classes))
@@ -81,6 +80,9 @@ class Trainer():
         sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
         model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
-        model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
-        model.save('gilfoyle_chatbot_model.model')
+        hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
+        model_path = 'gilfoyle_chatbot_model_v1.h5'
+        model.save(str(model_path), hist)
         print('Done')
+
+        return model_path

@@ -16,6 +16,7 @@ from text_reading import TextReader
 from text_parsing import TextParser, get_random_quote
 from text_tokenizing_cleaning import TextTokenizerCleaner
 from training import Trainer, pickling
+from chatting import ChatBot
 
 
 file_path = "gilfoyle.tsv"
@@ -60,7 +61,11 @@ if __name__ == '__main__':
         trainer = Trainer(str(json_file_path))
         documents, words, classes = trainer.get_docs()
         pickling(words, classes)
-        trainer.training(documents, words, classes)
+        #model = trainer.training(documents, words, classes)
+        model = 'gilfoyle_chatbot_model_v1.h5'
+        cb = ChatBot(str(model))
+        cb.gilfoyle_chatting()
+
 
     else:
         while(True):
