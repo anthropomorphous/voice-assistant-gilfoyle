@@ -17,6 +17,7 @@ from text_parsing import TextParser, get_random_quote
 from text_tokenizing_cleaning import TextTokenizerCleaner
 from training import Trainer, pickling
 from chatting import ChatBot
+from voicing import VoiceBot
 
 
 file_path = "gilfoyle.tsv"
@@ -33,18 +34,27 @@ def recognize_store_speech(r):
 
 if __name__ == '__main__':
     recognizer = sr.Recognizer()
-
-    print('Do you want to recognize your speech?')
-    print('Print 0 if you would like to text with me.')
-    print('Print 1 to hear the random quote of Gilfoyle.')
-    print('Print 2 if speech recognition is needed.')
+    print('Hi. I\'m Gilfoyle.')
+    print('Enter 0 if you would like to text with me.')
+    print('Enter 1 to hear the random quote of me.')
+    print('Enter 2 if speech recognition is needed.')
+    print('Enter 3 if you would like to talk to me.')
 
     numerical_input = int(input())
+
     if numerical_input == 0:
         print('What is your name?')
         name = str(input())
         txt_und = TextUnderstander(name)
         txt_und.meeter_greeter()
+
+        trainer = Trainer(str(json_file_path))
+        documents, words, classes = trainer.get_docs()
+        pickling(words, classes)
+        # model = trainer.training(documents, words, classes)
+        model = 'gilfoyle_chatbot_model_v1.h5'
+        cb = ChatBot(str(model))
+        cb.gilfoyle_chatting()
 
     elif numerical_input == 1:
 
@@ -58,13 +68,16 @@ if __name__ == '__main__':
         df = txt_cleaner.preprocess_df()
         print(df.head())
         """
+
+    elif numerical_input == 3:
+        # voice_input = recognize_store_speech(recognizer)
         trainer = Trainer(str(json_file_path))
         documents, words, classes = trainer.get_docs()
         pickling(words, classes)
-        #model = trainer.training(documents, words, classes)
+        # model = trainer.training(documents, words, classes)
         model = 'gilfoyle_chatbot_model_v1.h5'
-        cb = ChatBot(str(model))
-        cb.gilfoyle_chatting()
+        vb = VoiceBot(str(model))
+        vb.gilfoyle_voicing()
 
 
     else:
@@ -74,6 +87,6 @@ if __name__ == '__main__':
             try:
                 print("Gilfoyle thinks you said: \"{0}\" ".format(recognizer.recognize_google(voice_input)))
             except sr.UnknownValueError:
-                print("Gilfoyle could not understand audio")
+                print("Gilfoyle could not understand you")
             except sr.RequestError as e:
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))

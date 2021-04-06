@@ -7,7 +7,6 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 
 from tensorflow.keras.models import load_model
-from text_tokenizing_cleaning import clean_text
 
 wn = WordNetLemmatizer()
 intents = json.loads(open('intents.json').read())
@@ -65,10 +64,10 @@ class ChatBot():
 
     def gilfoyle_chatting(self):
         print("Gilfoyle is active now.")
+        model_path = 'gilfoyle_chatbot_model_v1.h5'
         while True:
-            message = input("")
+            question = input("")
+            ints = predict_class(model_path, question)
+            answer = get_response(ints, intents)
 
-            model_path = 'gilfoyle_chatbot_model_v1.h5'
-            ints = predict_class(model_path, message)
-            res = get_response(ints, intents)
-            print(res)
+            print(answer)
